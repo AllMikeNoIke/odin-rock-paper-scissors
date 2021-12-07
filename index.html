@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function computerPlay() {
+            const play = ["Rock", "Paper", "Scissors"];
+            return play[Math.floor(Math.random() * 3)];
+        }
+
+        // Checks if user inputs valid, case-insensitive selection of "rock", "paper", or "scissors"
+        function checkValidSelection(selection) {
+            const regEx = /^(rock|paper|scissors)$/i;
+            return regEx.test(selection);
+        }
+
+        function userPlay() {
+            const userSelection = prompt("Please type one of the following options: Rock, Paper, or Scissors");
+            if (checkValidSelection(userSelection)) {
+                return userSelection.slice(0, 1).toUpperCase() + userSelection.slice(1).toLowerCase();
+            }
+            return userPlay();
+        }
+
+        function playRound(playerSelection, computerSelection) {
+            if (playerSelection === computerSelection) {
+                console.log(`You Tied! Both players chose ${playerSelection}.`);
+                return;
+            } else if (playerSelection === "Rock" && computerSelection === "Scissors" || playerSelection === "Paper" && computerSelection === "Rock" || playerSelection === "Scissors" && computerSelection === "Paper") {
+                console.log(`You Won! ${playerSelection} beats ${computerSelection}.`);
+                return "player";
+            } else {
+                console.log(`You Lost! ${playerSelection} loses to ${computerSelection}.`);
+                return "computer";
+            }
+        }
+
+        (function game() {
+            let round = 1,
+                playerScore = 0,
+                computerScore = 0;
+            while (round <= 5) {
+                const winner = playRound((userPlay)(), (computerPlay)());
+                if (winner === "player") {
+                    playerScore++;
+                } else if (winner === "computer") {
+                    computerScore++;
+                }
+                round++;
+            }
+            if (playerScore > computerScore) {
+                console.log("Congratulations, you won the game!");
+            } else if (playerScore < computerScore) {
+                console.log("You lost the game. Better luck next time!");
+            } else {
+                console.log("It's a draw. Nobody wins!")
+            }
+        })();
+
+    </script>
+</body>
+
+</html>
